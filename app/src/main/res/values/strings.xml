@@ -1,0 +1,28 @@
+<resources>
+    <!--<string name="app_name">PIEAS Coordinator</string>-->
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_post_view">PostViewActivity</string>
+
+    <string name="app_name">BS Coordination</string>
+    <string name="press">Press</string>
+    <string name="inside_class">inside Class</string>
+    <string name="chat">Chat about</string>
+    <string name="button">Button</string>
+    <string name="sir">Sir Nauman Shamim</string>
+
+    <!--activity_main-->
+    <string name="button_class">Class</string>
+    <string name="button_application">Application</string>
+
+    <!--activity_application-->
+    <string name="application_alert">Will be done in the Second Phase of this app.</string>
+
+    <!--activity_login-->
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="button_login">Login</string>
+
+    <!--grid_card-->
+    <string name="unread_string">N unread Messages</string>
+
+</resources>

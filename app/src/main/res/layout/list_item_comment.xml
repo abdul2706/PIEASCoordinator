@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="#11000000"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/cliCommentAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="#5500ff00"
+        tools:text="Comment Author" />
+
+    <TextView
+        android:id="@+id/cliCommentContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="#55ffff00"
+        tools:text="Comment Content" />
+
+    <TextView
+        android:id="@+id/cliCommentDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="#55ff00ff"
+        tools:text="Comment DateTime" />
+</LinearLayout>
