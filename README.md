@@ -1,0 +1,1 @@
+This Application is for managing coordinator tasks easily.
