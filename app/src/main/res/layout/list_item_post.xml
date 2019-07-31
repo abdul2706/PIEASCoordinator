@@ -1,44 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:background="#11000000"
-    android:orientation="vertical">
+    android:elevation="4dp"
+    android:orientation="vertical"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp">
 
-    <TextView
-        android:id="@+id/pliPostTitle"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:background="#5500ff00"
-        android:textSize="18sp"
-        tools:text="Post Title" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewPostAuthor"
+            android:id="@+id/pliPostTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:background="#550000ff"
-            tools:text="Post Author" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="8dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/pliEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Post Title" />
 
         <TextView
-            android:id="@+id/textViewPostDateTime"
+            android:id="@+id/uliSeparator"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="#777777"
+            android:contentDescription="@string/description_separator"
+            app:layout_constraintEnd_toEndOf="@+id/pliPostTitle"
+            app:layout_constraintStart_toStartOf="@+id/pliPostTitle"
+            app:layout_constraintTop_toBottomOf="@+id/pliPostTitle" />
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:background="#55ff0000"
-            tools:text="Post DateTime" />
-    </LinearLayout>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/pliPostTitle"
+            app:layout_constraintStart_toStartOf="@+id/pliPostTitle"
+            app:layout_constraintTop_toBottomOf="@+id/uliSeparator">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/uliDepartment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:textSize="12sp"
+                tools:text="Post Author" />
+
+            <TextView
+                android:id="@+id/uliBatch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:textSize="12sp"
+                tools:text="Post DateTime" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/pliEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/round_edit_black_36" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/pliEdit"
+            app:layout_constraintTop_toBottomOf="@+id/pliEdit"
+            app:srcCompat="@drawable/round_delete_black_36" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
