@@ -3,7 +3,6 @@
 
     <string name="app_name">BS Coordinator</string>
     <string name="title_activity_post_add">Add New Post</string>
-    <string name="title_activity_user_list">All Students List</string>
     <string name="post_adapter_instructions">No Post in this Post Group. \n 1) Select another Post Group from Navigation Menu by sliding from left edge of screen. \n 2) Add new Post in this group by clicking + icon or selecting Add Post from menu on top right.</string>
     <string name="user_adapter_instructions">No Student in the Users Table in Database. Add Students by importing CSV file from MainActivity.</string>
     <string name="users_group_adapter_instructions">No Student is selected. Click either of the two buttons to add students.</string>

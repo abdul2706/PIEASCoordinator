@@ -69,6 +69,10 @@ public class PostGroup implements Serializable {
         private DefaultPostGroups() {
         }
 
+        public static boolean isDefaultGroup(PostGroup postGroup) {
+            return postGroup.getTitle().equals(ANNOUNCEMENTS) || postGroup.getTitle().equals(DISCUSSIONS) || postGroup.getTitle().equals(NEWS) || postGroup.getTitle().equals(NOTIFICATIONS);
+        }
+
         public static void insert(Context context) {
             SharedPreferences sharedPreferences = context.getSharedPreferences(context.getPackageName(), MODE_PRIVATE);
             ContentResolver contentResolver = context.getContentResolver();

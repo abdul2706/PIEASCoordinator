@@ -143,6 +143,9 @@ public class AppProvider extends ContentProvider {
         Log.d(TAG, "query: match -> " + match);
 
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        SQLiteDatabase db;
+        Cursor cursor;
+        String rawQuery;
 
         switch (match) {
             case USER_GROUPS:
@@ -191,8 +194,13 @@ public class AppProvider extends ContentProvider {
                 break;
 
             case USER_LINKS:
-                queryBuilder.setTables(UserLinksContract.TABLE_NAME);
-                break;
+                db = mOpenHelper.getReadableDatabase();
+                rawQuery = "SELECT * FROM " + UsersContract.TABLE_NAME + " WHERE " + UsersContract.Columns._ID + " IN (SELECT " + UserLinksContract.Columns.USER_LINK_USER_ID + " FROM " + UserLinksContract.TABLE_NAME + " WHERE " + UserLinksContract.Columns.USER_LINK_USER_GROUP_ID + " = " + selectionArgs[1] + ")";
+                Log.d(TAG, "query: rawQuery -> " + rawQuery);
+                cursor = db.rawQuery(rawQuery, null);
+                Log.d(TAG, "query: rows in returned cursor = " + cursor.getCount());
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
             case USER_LINKS_ID:
                 queryBuilder.setTables(UserLinksContract.TABLE_NAME);
                 long userLinkId = UserLinksContract.getUserLinkId(uri);
@@ -200,10 +208,10 @@ public class AppProvider extends ContentProvider {
                 break;
 
             case POST_LINKS:
-                SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-                String rawQuery = "SELECT * FROM " + PostsContract.TABLE_NAME + " WHERE " + PostsContract.Columns._ID + " IN (SELECT " + PostLinksContract.Columns.POST_LINK_POST_ID + " FROM " + PostLinksContract.TABLE_NAME + " WHERE " + PostLinksContract.Columns.POST_LINK_POST_GROUP_ID + " = " + selectionArgs[0] + ") ORDER BY " + sortOrder;
+                db = mOpenHelper.getReadableDatabase();
+                rawQuery = "SELECT * FROM " + PostsContract.TABLE_NAME + " WHERE " + PostsContract.Columns._ID + " IN (SELECT " + PostLinksContract.Columns.POST_LINK_POST_ID + " FROM " + PostLinksContract.TABLE_NAME + " WHERE " + PostLinksContract.Columns.POST_LINK_POST_GROUP_ID + " = " + selectionArgs[0] + ") ORDER BY " + sortOrder;
                 Log.d(TAG, "query: rawQuery -> " + rawQuery);
-                Cursor cursor = db.rawQuery(rawQuery, null);
+                cursor = db.rawQuery(rawQuery, null);
                 Log.d(TAG, "query: rows in returned cursor = " + cursor.getCount());
                 cursor.setNotificationUri(getContext().getContentResolver(), uri);
                 return cursor;
@@ -214,8 +222,13 @@ public class AppProvider extends ContentProvider {
                 break;
 
             case UPG_LINKS:
-                queryBuilder.setTables(UPGLinksContract.TABLE_NAME);
-                break;
+                db = mOpenHelper.getReadableDatabase();
+                rawQuery = "SELECT * FROM " + UsersContract.TABLE_NAME + " WHERE " + UsersContract.Columns._ID + " IN (SELECT " + UPGLinksContract.Columns.UPG_LINK_USER_ID + " FROM " + UPGLinksContract.TABLE_NAME + " WHERE " + UPGLinksContract.Columns.UPG_LINK_POST_GROUP_ID + " = " + selectionArgs[0] + ")";
+                Log.d(TAG, "query: rawQuery -> " + rawQuery);
+                cursor = db.rawQuery(rawQuery, null);
+                Log.d(TAG, "query: rows in returned cursor = " + cursor.getCount());
+                cursor.setNotificationUri(getContext().getContentResolver(), uri);
+                return cursor;
             case UPG_LINKS_ID:
                 queryBuilder.setTables(UPGLinksContract.TABLE_NAME);
                 long ugpgLinkId = UPGLinksContract.getUPGLinkId(uri);
@@ -225,8 +238,8 @@ public class AppProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
 
-        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        db = mOpenHelper.getReadableDatabase();
+        cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
         Log.d(TAG, "query: rows in returned cursor = " + cursor.getCount());
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
@@ -573,7 +586,7 @@ public class AppProvider extends ContentProvider {
         }
 
         if (count > 0) {
-            // something was deleted
+            // something was updated
             Log.d(TAG, "update: Setting notifyChange with: " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {

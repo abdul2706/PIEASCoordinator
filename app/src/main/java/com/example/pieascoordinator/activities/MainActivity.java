@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static User CURRENT_USER;
     public static PostGroup CURRENT_POST_GROUP;
+    public static ArrayList<PostGroup> mPostGroups = new ArrayList<>();
+    public static ArrayList<UserGroup> mUserGroups = new ArrayList<>();
 
     private SharedPreferences mSharedPreferences;
     private CursorPostsAdapter mPostAdapter;
-    private ArrayList<PostGroup> mPostGroups = new ArrayList<>();
-    private ArrayList<UserGroup> mUserGroups = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getMenuInflater().inflate(R.menu.activity_main_drawer, navigationMenu);
         drawer.closeDrawers();
-
-//        navigationView
 
         View view = navigationView.getHeaderView(0);
         TextView navBarUsername = view.findViewById(R.id.navbarUsername);
@@ -240,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(MainActivity.this, CreateEditGroupActivity.class);
                 intent.putExtra(CreateEditGroupActivity.GROUP_TYPE, CreateEditGroupActivity.GROUP.POST);
                 intent.putExtra(CreateEditGroupActivity.PURPOSE_TYPE, CreateEditGroupActivity.PURPOSE.EDIT);
-                intent.putExtra(Post.class.getSimpleName(), CURRENT_POST_GROUP);
+                intent.putExtra(PostGroup.class.getSimpleName(), CURRENT_POST_GROUP);
                 startActivity(intent);
                 break;
             case R.id.action_create_post_group:
@@ -289,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()) {
             case R.id.menu_show_all_users:
-                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
+                Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
                 break;
             case R.id.menu_import_users_from_csv:

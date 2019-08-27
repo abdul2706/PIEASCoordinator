@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
+import com.example.pieascoordinator.database.UPGLinksContract;
 import com.example.pieascoordinator.database.UserLinksContract;
 import com.example.pieascoordinator.database.UsersContract;
 
@@ -134,15 +135,12 @@ public class User implements Serializable {
                 Log.d(TAG, "insertUsers: newUserId -> " + newUserId);
 
                 for(PostGroup postGroup : postGroups) {
-                    if(postGroup.getTitle().equals(PostGroup.DefaultPostGroups.ANNOUNCEMENTS)
-                    || postGroup.getTitle().equals(PostGroup.DefaultPostGroups.DISCUSSIONS)
-                    || postGroup.getTitle().equals(PostGroup.DefaultPostGroups.NEWS)
-                    || postGroup.getTitle().equals(PostGroup.DefaultPostGroups.NOTIFICATIONS)) {
+                    if(PostGroup.DefaultPostGroups.isDefaultGroup(postGroup)) {
                         Log.d(TAG, "insert: postGroup -> " + postGroup);
                         contentValues = new ContentValues();
-                        contentValues.put(UserLinksContract.Columns.USER_LINK_USER_GROUP_ID, postGroup.getId());
-                        contentValues.put(UserLinksContract.Columns.USER_LINK_USER_ID, newUserId);
-                        contentResolver.insert(UserLinksContract.CONTENT_URI, contentValues);
+                        contentValues.put(UPGLinksContract.Columns.UPG_LINK_POST_GROUP_ID, postGroup.getId());
+                        contentValues.put(UPGLinksContract.Columns.UPG_LINK_USER_ID, newUserId);
+                        contentResolver.insert(UPGLinksContract.CONTENT_URI, contentValues);
                     }
                 }
 

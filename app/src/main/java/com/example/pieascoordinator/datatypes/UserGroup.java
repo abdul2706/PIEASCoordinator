@@ -13,9 +13,9 @@ public class UserGroup implements Serializable {
     private long _ID;
     private String mTitle;
 
-    public UserGroup(long _ID, String mTitle) {
-        this._ID = _ID;
-        this.mTitle = mTitle;
+    public UserGroup(long id, String title) {
+        this._ID = id;
+        this.mTitle = title;
     }
 
     public UserGroup(Cursor cursor) {
@@ -43,7 +43,7 @@ public class UserGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "PostGroup{" +
+        return "UserGroup{" +
                 "_ID=" + _ID +
                 ", mTitle='" + mTitle + '\'' +
                 '}';

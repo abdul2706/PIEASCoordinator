@@ -19,8 +19,8 @@ public class UPGLinksContract {
 
     public static class Columns {
         public static final String _ID = BaseColumns._ID;
-        public static final String UGPG_USER_GROUP_ID = "UserGroupId";
-        public static final String UGPG_POST_GROUP_ID = "PostGroupId";
+        public static final String UPG_LINK_USER_ID = "UserId";
+        public static final String UPG_LINK_POST_GROUP_ID = "PostGroupId";
 
         private Columns() {
         }

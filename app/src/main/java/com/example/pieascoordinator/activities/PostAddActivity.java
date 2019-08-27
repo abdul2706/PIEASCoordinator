@@ -7,7 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.pieascoordinator.R;
-import com.example.pieascoordinator.adapters.CursorGroupsAdapter;
+import com.example.pieascoordinator.adapters.GroupListAdapter;
+import com.example.pieascoordinator.adapters.GroupListAdapter.TYPE;
 import com.example.pieascoordinator.database.PostGroupsContract;
 import com.example.pieascoordinator.database.PostLinksContract;
 import com.example.pieascoordinator.database.PostsContract;
@@ -36,16 +37,14 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class PostAddActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, AppDialog.DialogEvents {
+public class PostAddActivity extends AppCompatActivity implements AppDialog.DialogEvents {
 
     private static final String TAG = "PostAddActivity";
     public static final int DIALOG_ID_CANCEL = 1;
-    public static final int LOADER_POST_GROUP_ID = 1;
 
     private EditText mPostTitle, mPostContent;
     private RecyclerView mPostGroups;
-
-    private CursorGroupsAdapter mAdapter;
+    private GroupListAdapter mPostGroupsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +60,8 @@ public class PostAddActivity extends AppCompatActivity implements LoaderManager.
         mPostGroups = findViewById(R.id.recyclerViewPostGroups);
 
         mPostGroups.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new CursorGroupsAdapter(this, null);
-        mPostGroups.setAdapter(mAdapter);
-
-        getSupportLoaderManager().initLoader(LOADER_POST_GROUP_ID, null, this);
+        mPostGroupsAdapter = new GroupListAdapter(this, MainActivity.mPostGroups, GroupListAdapter.TYPE.POST_GROUP);
+        mPostGroups.setAdapter(mPostGroupsAdapter);
 
         Log.d(TAG, "onCreate: ends");
     }
@@ -82,7 +79,7 @@ public class PostAddActivity extends AppCompatActivity implements LoaderManager.
         String postContent = mPostContent.getText().toString();
 
         switch (id) {
-            case R.id.action_group_done:
+            case R.id.action_done:
                 Log.d(TAG, "onOptionsItemSelected: mPostTitle.length() -> " + mPostTitle.length());
                 if (mPostTitle.length() <= 0) {
                     Toast.makeText(this, "Post Title is required", Toast.LENGTH_SHORT).show();
@@ -93,8 +90,8 @@ public class PostAddActivity extends AppCompatActivity implements LoaderManager.
                     Toast.makeText(this, "Post Content is required", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                Log.d(TAG, "onOptionsItemSelected: mAdapter.getSelectedPostGroups().size() -> " + mAdapter.getSelectedPostGroups().size());
-                if (mAdapter.getSelectedPostGroups().size() <= 0) {
+                Log.d(TAG, "onOptionsItemSelected: mAdapter.getSelectedPostGroups().size() -> " + mPostGroupsAdapter.getSelectedList().size());
+                if (mPostGroupsAdapter.getSelectedList().size() <= 0) {
                     Toast.makeText(this, "Select at-least one Post Group", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -113,7 +110,7 @@ public class PostAddActivity extends AppCompatActivity implements LoaderManager.
                 Log.d(TAG, "onOptionsItemSelected: newPostUri -> " + newPostUri);
                 long newPostId = PostsContract.getPostId(newPostUri);
 
-                ArrayList<PostGroup> selectedPostGroups = mAdapter.getSelectedPostGroups();
+                ArrayList<PostGroup> selectedPostGroups = (ArrayList<PostGroup>) mPostGroupsAdapter.getSelectedList();
                 for(PostGroup postGroup : selectedPostGroups) {
                     contentValues = new ContentValues();
                     contentValues.put(PostLinksContract.Columns.POST_LINK_POST_GROUP_ID, postGroup.getId());
@@ -125,7 +122,7 @@ public class PostAddActivity extends AppCompatActivity implements LoaderManager.
                 finish();
                 break;
             case R.id.action_cancel:
-                if (postTitle.length() > 0 || postContent.length() > 0 || mAdapter.getSelectedPostGroups().size() > 0) {
+                if (postTitle.length() > 0 || postContent.length() > 0 || mPostGroupsAdapter.getSelectedList().size() > 0) {
                     AppDialog dialog = new AppDialog();
                     Bundle args = new Bundle();
                     args.putInt(AppDialog.DIALOG_ID, DIALOG_ID_CANCEL);
@@ -169,32 +166,6 @@ public class PostAddActivity extends AppCompatActivity implements LoaderManager.
             Log.d(TAG, "onPositiveDialogResult: Cancel");
         }
         Log.d(TAG, "onDialogCancelled: ends");
-    }
-
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        Log.d(TAG, "onCreateLoader() called with: id = [" + id + "]");
-
-        switch (id) {
-            case LOADER_POST_GROUP_ID:
-                return new CursorLoader(this, PostGroupsContract.CONTENT_URI, null, null, null, null);
-            default:
-                throw new InvalidParameterException(TAG + ".onCreateLoader called with invalid loader id = " + id);
-        }
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        Log.d(TAG, "onLoadFinished: starts");
-        mAdapter.swapCursor(data);
-        Log.d(TAG, "onLoadFinished: count -> " + mAdapter.getItemCount());
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        Log.d(TAG, "onLoaderReset: starts");
-        mAdapter.swapCursor(null);
     }
 
 }

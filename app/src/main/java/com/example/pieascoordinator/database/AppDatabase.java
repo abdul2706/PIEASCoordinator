@@ -99,8 +99,8 @@ class AppDatabase extends SQLiteOpenHelper {
         // SQL query for creating UGPGLinks (UserGroupPostGroup) Table
         sSQL = "CREATE TABLE " + UPGLinksContract.TABLE_NAME + " ("
                 + UPGLinksContract.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
-                + UPGLinksContract.Columns.UGPG_USER_GROUP_ID + " INTEGER NOT NULL, "
-                + UPGLinksContract.Columns.UGPG_POST_GROUP_ID + " INTEGER NOT NULL)";
+                + UPGLinksContract.Columns.UPG_LINK_USER_ID + " INTEGER NOT NULL, "
+                + UPGLinksContract.Columns.UPG_LINK_POST_GROUP_ID + " INTEGER NOT NULL)";
         Log.d(TAG, "onCreate: sSQL -> " + sSQL);
         db.execSQL(sSQL);
 
